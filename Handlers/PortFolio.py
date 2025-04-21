@@ -1,6 +1,7 @@
-from pyrogram import filters, Client as app
+from pyrogram import filters
 from Utils.Db import add_coin, get_portfolio
 import aiohttp
+from Client import app
 
 @app.on_message(filters.command("add"))
 async def add_coin_to_portfolio(_, message):
