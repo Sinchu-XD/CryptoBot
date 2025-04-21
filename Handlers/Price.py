@@ -1,6 +1,6 @@
-from pyrogram import Client as app, filters
+from pyrogram import filters
 import aiohttp
-#from Main import app
+from Client import app
 
 @app.on_message(filters.command("price"))
 async def get_price(_, message):
