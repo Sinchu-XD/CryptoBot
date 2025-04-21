@@ -1,22 +1,21 @@
-from pyrogram import filters
-import aiohttp
-from Client import app
+from pyrogram import Client, filters
+from pycoingecko import CoinGeckoAPI
 
-@app.on_message(filters.command("price"))
-async def get_price(_, message):
-    if len(message.command) < 2:
-        return await message.reply("Usage: /price BTC")
+cg = CoinGeckoAPI()
 
-    coin = message.command[1].lower()
-
-    url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin}&vs_currencies=usd"
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as resp:
-            data = await resp.json()
-
-    if coin in data:
-        price = data[coin]["usd"]
-        await message.reply(f"💰 Current price of **{coin.upper()}**: ${price}")
-    else:
-        await message.reply("❌ Coin not found.")
-      
+@Client.on_message(filters.command("price"))
+async def price_handler(client, message):
+    try:
+        coin_symbol = message.text.split()[1].lower()
+        coin_data = cg.get_price(ids=coin_symbol, vs_currencies='usd')
+        
+        if coin_symbol in coin_data:
+            price = coin_data[coin_symbol]['usd']
+            await message.reply(f"🪙 {coin_symbol.upper()} is currently ${price}")
+        else:
+            await message.reply("❌ Coin not found. Please check the coin symbol.")
+    
+    except IndexError:
+        await message.reply("❌ Please provide a coin symbol, e.g., /price BTC.")
+    except Exception as e:
+        await message.reply(f"❌ Something went wrong: {e}")
