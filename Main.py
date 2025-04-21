@@ -1,11 +1,12 @@
 from pyrogram import Client, idle
 import asyncio
 import os
-from Config import API_ID, API_HASH, BOT_TOKEN
 from Utils.Db import init_db
 import importlib
+import Handlers.Price
+import Handlers.PortFolio
 
-app = Client("CryptoBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+from Client import app
 
 def load_plugins():
     plugin_dir = "Handlers"
