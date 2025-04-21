@@ -1,9 +1,10 @@
-from pyrogram import Client, filters
+from pyrogram import filters
 from pycoingecko import CoinGeckoAPI
+from Client import app
 
 cg = CoinGeckoAPI()
 
-@Client.on_message(filters.command("price"))
+@app.on_message(filters.command("price"))
 async def price_handler(client, message):
     try:
         coin_symbol = message.text.split()[1].lower()
