@@ -1,8 +1,9 @@
-from pyrogram import Client, filters
+from pyrogram import filters
 from Utils.Db import add_coin, get_portfolio
 import aiohttp
+from Main import app
 
-@Client.on_message(filters.command("add"))
+@app.on_message(filters.command("add"))
 async def add_coin_to_portfolio(_, message):
     if len(message.command) != 3:
         return await message.reply("Usage: /add BTC 0.5")
@@ -16,7 +17,7 @@ async def add_coin_to_portfolio(_, message):
     await add_coin(message.from_user.id, coin, amount)
     await message.reply(f"✅ Added {amount} {coin.upper()} to your portfolio.")
 
-@Client.on_message(filters.command("portfolio"))
+@app.on_message(filters.command("portfolio"))
 async def show_portfolio(_, message):
     portfolio = await get_portfolio(message.from_user.id)
     if not portfolio:
