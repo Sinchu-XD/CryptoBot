@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+from pyrogram import Client as app, filters
 import aiohttp
 from Main import app
 
