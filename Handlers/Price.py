@@ -1,7 +1,8 @@
 from pyrogram import Client, filters
 import aiohttp
+from Main import app
 
-@Client.on_message(filters.command("price"))
+@app.on_message(filters.command("price"))
 async def get_price(_, message):
     if len(message.command) < 2:
         return await message.reply("Usage: /price BTC")
